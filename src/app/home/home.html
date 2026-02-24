@@ -1,0 +1,135 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">KrashiBajar Portal</a>
+    <div class="ms-auto">
+      <a [routerLink]="'/farmer-login'" class="btn btn-success me-2"> <i class="fa fa-user"></i> Farmer Login</a>
+      <a [routerLink]="'/user-login'" class="btn btn-primary"> <i class="fa fa-user"></i> Customer Login</a>
+    </div>
+  </div>
+</nav>
+
+<div>
+    <img width="100%" src="https://t4.ftcdn.net/jpg/03/20/39/85/360_F_320398572_P4HHAy08qiRKI9b7GgsHDKy15qwgjlTy.jpg" alt="">
+</div>
+
+<!-- Product List -->
+
+<div class="container my-5">
+  <h2 class=" mb-4">Available Vegetables</h2>
+  <div class="row">
+    <!-- Product Card Example -->
+    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
+      <div class="card h-100 shadow-sm">
+        <div class="card-body p-2">
+          <div class="row">
+            <div class="col-md-4">
+               <img src="https://media.istockphoto.com/id/466175630/photo/tomato-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=ELzCVzaiRMgiO7A5zQLkuws0N_lvPxrgJWPn7C7BXz0=" class="card-img-top" alt="Tomato">
+            </div>
+            <div class="col-md-8">
+                 <b class="card-title mb-0">Tomato</b>
+                <small class=" mb-0 d-block">Price: ₹40/kg</small>
+                <small class="mb-0 d-block">Quantity: 10 kg available</small>
+                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
+                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
+            </div>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Product List -->
+
+<div class="container my-5">
+  <h2 class=" mb-4">Available Fruits </h2>
+  <div class="row">
+    <!-- Product Card Example -->
+    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
+      <div class="card h-100 shadow-sm">
+        <div class="card-body p-2">
+          <div class="row">
+            <div class="col-md-4">
+               <img src="https://t3.ftcdn.net/jpg/12/84/61/66/360_F_1284616641_CmN8lyHm3QtTL7NWzthuJoBE4FzSJiBZ.jpg" class="card-img-top" alt="Tomato">
+            </div>
+            <div class="col-md-8">
+                 <b class="card-title mb-0">Blackberry </b>
+                <small class=" mb-0 d-block">Price: ₹400/kg</small>
+                <small class="mb-0 d-block">Quantity: 100 kg available</small>
+                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
+                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
+            </div>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Product List -->
+
+<div class="container my-5">
+  <h2 class=" mb-4">Available Dryed Been </h2>
+  <div class="row">
+    <!-- Product Card Example -->
+    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
+      <div class="card h-100 shadow-sm">
+        <div class="card-body p-2">
+          <div class="row">
+            <div class="col-md-4">
+               <img src="https://2.wlimg.com/product_images/bc-full/2023/9/2417530/whole-green-gram-1664522259-6564652.jpg" class="card-img-top" alt="Tomato">
+            </div>
+            <div class="col-md-8">
+                 <b class="card-title mb-0">Green Gram </b>
+                <small class=" mb-0 d-block">Price: ₹100/kg</small>
+                <small class="mb-0 d-block">Quantity: 500 kg available</small>
+                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
+                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
+            </div>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Buy Product Modal -->
+<div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="buyModalLabel">Buy Product</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="customerName" class="form-label">Name</label>
+            <input type="text" id="customerName" class="form-control" placeholder="Enter your name" required>
+          </div>
+          <!-- Contact -->
+          <div class="mb-3">
+            <label for="customerContact" class="form-label">Contact</label>
+            <input type="tel" id="customerContact" class="form-control" placeholder="Enter your contact number" required>
+          </div>
+          <!-- Address -->
+          <div class="mb-3">
+            <label for="customerAddress" class="form-label">Address</label>
+            <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter your address" required></textarea>
+          </div>
+          <!-- Quantity -->
+          <div class="mb-3">
+            <label for="customerQuantity" class="form-label">Quantity</label>
+            <input type="number" id="customerQuantity" class="form-control" placeholder="Enter quantity" required>
+          </div>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-success w-100">Confirm Purchase</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

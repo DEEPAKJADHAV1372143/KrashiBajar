@@ -1,0 +1,192 @@
+<div class="bg-dark text-light p-1 px-5">
+<h4 class="">Farmer Dashboard  </h4>
+</div>
+<div class="px-5 pt-4">
+  <!-- Customer Info -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <section class="row">
+        <div class="col-md-1">
+            <img width="70" height="70" src="https://rupiya.app/wp-content/uploads/2025/03/erasebg-transformed-2.png" class="rounded" alt="Customer Photo">
+        </div>
+        <div class="col-md-4">
+            <p><strong>Name:</strong> Deepak Sharma</p>
+            <p><strong>Contact:</strong> +91 9876543210</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Email:</strong> deepak@example.com</p>
+            <p><strong>Address:</strong> Pune, Maharashtra</p>
+        </div>
+        <div class="col-md-2 text-end">
+            <button class="btn btn-sm btn-danger" [routerLink]="'/home'"><i class="fa fa-sign-out"></i> Logout</button>
+        </div>
+      </section>
+      
+     
+     
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">Orders</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">Cancelled Orders</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="add-product-tab" data-bs-toggle="tab" data-bs-target="#add-product" type="button" role="tab">Add New Product</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="product-list-tab" data-bs-toggle="tab" data-bs-target="#product-list" type="button" role="tab">Product List</button>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-3" id="dashboardTabsContent">
+    <!-- Orders Tab -->
+    <div class="tab-pane fade show active" id="orders" role="tabpanel">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#101</td>
+            <td>Tomato</td>
+            <td>5 kg</td>
+            <td>₹200</td>
+            <td>Pending</td>
+            <td><button class="btn btn-warning btn-sm">Cancel Request</button></td>
+          </tr>
+          <tr *ngFor="let item of [1,1,1,1,1]">
+            <td>#102</td>
+            <td>Potato</td>
+            <td>10 kg</td>
+            <td>₹300</td>
+            <td>Shipped</td>
+            <td><button class="btn btn-warning btn-sm">Cancel Request</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cancelled Orders Tab -->
+    <div class="tab-pane fade" id="cancelled" role="tabpanel">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Cancelled Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#099</td>
+            <td>Onion</td>
+            <td>3 kg</td>
+            <td>₹150</td>
+            <td>28 Jan 2026</td>
+          </tr>
+          <tr>
+            <td>#098</td>
+            <td>Carrot</td>
+            <td>2 kg</td>
+            <td>₹100</td>
+            <td>25 Jan 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Product List Orders Tab -->
+    <div class="tab-pane fade" id="add-product" role="tabpanel">
+        <div class="container  justify-content-center align-items-center ">
+            <div class="card shadow-lg p-4 mt-5" >
+                <h3 class="text-center mb-4">Add New Product</h3>
+                <form>
+                    <section class="row">
+                        <div class="col-md-6">
+                            <!-- Customer Name -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Product Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="Enter your Product name" required>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                <label for="Price" class="form-label">Product Price</label>
+                                <input type="number" id="Price" class="form-control" placeholder="Enter your Price " required>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Quantity -->
+                            <div class="mb-3">
+                                <label for="Quantity" class="form-label">Product  Quantity</label>
+                                <input type="number" id="Quantity" class="form-control" placeholder="Enter your Quantity" required>
+                            </div>
+                            <!-- Photo Upload -->
+                            <div class="mb-3">
+                                <label for="photo" class="form-label">Upload Product Photo</label>
+                                <input type="file" id="photo" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Submit Button -->
+                    <div class="text-start">
+                        <button type="submit" class="btn btn-success ">Add Produt</button>
+                        <button type="reset" class="btn btn-warning mx-5">Cancle Produt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product List Orders Tab -->
+    <div class="tab-pane fade" id="product-list" role="tabpanel">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Product ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Add Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#099</td>
+            <td>Onion</td>
+            <td>3 kg</td>
+            <td>₹150</td>
+            <td>28 Jan 2026</td>
+          </tr>
+          <tr>
+            <td>#098</td>
+            <td>Carrot</td>
+            <td>2 kg</td>
+            <td>₹100</td>
+            <td>25 Jan 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+<app-footer></app-footer>
+

@@ -1,0 +1,49 @@
+<div class="container  justify-content-center align-items-center ">
+  <div class="card shadow-lg p-4 mt-5" >
+    <h3 class="text-center mb-4">Farmer Registration</h3>
+    <form>
+        <section class="row">
+            <div class="col-md-6">
+                <!-- Farmer Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Farmer Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+
+                <!-- Contact -->
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Contact Number</label>
+                    <input type="tel" id="contact" class="form-control" placeholder="Enter your contact number" required>
+                </div>
+
+                 <!-- Photo Upload -->
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Upload Photo</label>
+                    <input type="file" id="photo" class="form-control" accept="image/*" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                 <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea id="address" class="form-control" rows="3" placeholder="Enter your address" required></textarea>
+                </div>
+            </div>
+        </section>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success w-100">Register</button>
+    </form>
+
+    <!-- Back to Login -->
+    <div class="text-center mt-3">
+      <a [routerLink]="'/home'" class="text-decoration-none">Back to Login</a>
+    </div>
+  </div>
+</div>

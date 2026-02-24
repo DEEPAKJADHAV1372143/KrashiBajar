@@ -1,0 +1,108 @@
+<div class="bg-dark text-light p-1 px-5">
+<h4 class="">Customer Dashboard</h4>
+</div>
+<div class="px-5 pt-4">
+  <!-- Customer Info -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <section class="row">
+        <div class="col-md-1">
+            <img width="70" height="70" src="https://avatars.githubusercontent.com/u/42931069?v=4" class="rounded-circle" alt="Customer Photo">
+        </div>
+        <div class="col-md-4">
+            <p><strong>Name:</strong> Deepak Sharma</p>
+            <p><strong>Contact:</strong> +91 9876543210</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Email:</strong> deepak@example.com</p>
+            <p><strong>Address:</strong> Pune, Maharashtra</p>
+        </div>
+        <div class="col-md-2 text-end">
+            <button class="btn btn-sm btn-danger" [routerLink]="'/home'"> <i class="fa fa-sign-out"></i> Logout</button>
+        </div>
+      </section>
+      
+     
+     
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">Orders</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">Cancelled Orders</button>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-3" id="dashboardTabsContent">
+    <!-- Orders Tab -->
+    <div class="tab-pane fade show active" id="orders" role="tabpanel">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#101</td>
+            <td>Tomato</td>
+            <td>5 kg</td>
+            <td>₹200</td>
+            <td>Pending</td>
+            <td><button class="btn btn-danger btn-sm">Cancel Request</button></td>
+          </tr>
+          <tr *ngFor="let item of [1,1,1,1,1]">
+            <td>#102</td>
+            <td>Potato</td>
+            <td>10 kg</td>
+            <td>₹300</td>
+            <td>Shipped</td>
+            <td><button class="btn btn-danger btn-sm">Cancel Request</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cancelled Orders Tab -->
+    <div class="tab-pane fade" id="cancelled" role="tabpanel">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Cancelled Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#099</td>
+            <td>Onion</td>
+            <td>3 kg</td>
+            <td>₹150</td>
+            <td>28 Jan 2026</td>
+          </tr>
+          <tr>
+            <td>#098</td>
+            <td>Carrot</td>
+            <td>2 kg</td>
+            <td>₹100</td>
+            <td>25 Jan 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

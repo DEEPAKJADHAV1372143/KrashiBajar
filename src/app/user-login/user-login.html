@@ -1,0 +1,21 @@
+<div class="user">
+    <div class="container d-flex justify-content-end align-items-center vh-100">
+        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+            <h3 class="text-center mb-4">Customer Login</h3>
+            <form>
+            <div class="mb-3">
+                <label for="username" class="form-label"> <i class="fa fa-user"></i> Username</label>
+                <input type="text" id="username" class="form-control" placeholder="Enter your username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label"> <i class="fa fa-lock"></i> Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter your password">
+            </div>
+            <button type="submit"  [routerLink]="'/user-dashboard'" class="btn btn-primary w-100">Login</button>
+            </form>
+            <div class="text-center mt-3">
+            <a [routerLink]="'/user-register'" class="text-decoration-none">Create Account</a>
+            </div>
+        </div>
+    </div>
+ </div>
