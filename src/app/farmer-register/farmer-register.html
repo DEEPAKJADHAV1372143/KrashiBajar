@@ -1,44 +1,127 @@
-<div class="container  justify-content-center align-items-center ">
-  <div class="card shadow-lg p-4 mt-5" >
+<div class="container justify-content-center align-items-center">
+  <div class="card shadow-lg p-4 mt-2">
     <h3 class="text-center mb-4">Farmer Registration</h3>
-    <form>
-        <section class="row">
-            <div class="col-md-6">
-                <!-- Farmer Name -->
-                <div class="mb-3">
-                    <label for="name" class="form-label">Farmer Name</label>
-                    <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
-                </div>
+    <form (ngSubmit)="onSubmit(farmerForm)" #farmerForm="ngForm" class="row">
+      <!-- First Name -->
+      <div class="pt-2 col-md-6">
+        <label>First Name:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="farmerFirstName"
+          [(ngModel)]="farmer.farmerFirstName"
+          required
+          minlength="3"
+          #firstName="ngModel"
+        />
+        <div class="text-danger" *ngIf="firstName.invalid && firstName.touched">
+          First name is required and must be at least 3 characters.
+        </div>
+      </div>
 
-                <!-- Contact -->
-                <div class="mb-3">
-                    <label for="contact" class="form-label">Contact Number</label>
-                    <input type="tel" id="contact" class="form-control" placeholder="Enter your contact number" required>
-                </div>
+      <!-- Last Name -->
+      <div class="pt-2 col-md-6">
+        <label>Last Name:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="farmerLastName"
+          [(ngModel)]="farmer.farmerLastName"
+          required
+          minlength="3"
+          #lastName="ngModel"
+        />
+        <div class="text-danger" *ngIf="lastName.invalid && lastName.touched">
+          Last name is required and must be at least 3 characters.
+        </div>
+      </div>
 
-                 <!-- Photo Upload -->
-                <div class="mb-3">
-                    <label for="photo" class="form-label">Upload Photo</label>
-                    <input type="file" id="photo" class="form-control" accept="image/*" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                 <!-- Email -->
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                </div>
+      <!-- Email -->
+      <div class="pt-2 col-md-6">
+        <label>Email:</label>
+        <input
+          class="form-control"
+          type="email"
+          name="farmerEmail"
+          [(ngModel)]="farmer.farmerEmail"
+          required
+          #email="ngModel"
+        />
+        <div class="text-danger" *ngIf="email.invalid && email.touched">
+          A valid email is required.
+        </div>
+      </div>
 
-                <!-- Address -->
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address</label>
-                    <textarea id="address" class="form-control" rows="3" placeholder="Enter your address" required></textarea>
-                </div>
-            </div>
-        </section>
+      <!-- Phone -->
+      <div class="pt-2 col-md-6">
+        <label>Phone:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="farmerPhone"
+          [(ngModel)]="farmer.farmerPhone"
+          required
+          pattern="^[0-9]{10}$"
+          maxlength="10"
+          #phone="ngModel"
+        />
+        <div class="text-danger" *ngIf="phone.invalid && phone.touched">
+          Phone is required and must be exactly 10 digits.
+        </div>
+      </div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-success w-100">Register</button>
+      <!-- Image -->
+      <div class="pt-2 col-md-6">
+        <label>Image URL:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="farmerImage"
+          [(ngModel)]="farmer.farmerImage"
+          required
+          #image="ngModel"
+        />
+        <div class="text-danger" *ngIf="image.invalid && image.touched">Image URL is required.</div>
+      </div>
+
+      <!-- Account -->
+      <div class="pt-2 col-md-6">
+        <label>Account:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="farmerAccount"
+          [(ngModel)]="farmer.farmerAccount"
+          required
+          #account="ngModel"
+        />
+        <div class="text-danger" *ngIf="account.invalid && account.touched">
+          Account is required.
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="pt-2 col-md-6">
+        <label>Address:</label>
+        <textarea
+          name="farmerAddress"
+          class="form-control"
+          [(ngModel)]="farmer.farmerAddress"
+          required
+          #address="ngModel"
+        ></textarea>
+        <div class="text-danger" *ngIf="address.invalid && address.touched">
+          Address is required.
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="col-md-12 pt-3">
+        <button type="submit" class="btn btn-sm btn-success" [disabled]="farmerForm.invalid">
+          Register
+        </button>
+        <button type="reset" class="btn btn-sm btn-danger mx-3">Cancel</button>
+      </div>
     </form>
 
     <!-- Back to Login -->

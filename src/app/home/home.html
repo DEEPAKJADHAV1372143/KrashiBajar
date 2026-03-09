@@ -3,100 +3,71 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">KrashiBajar Portal</a>
     <div class="ms-auto">
-      <a [routerLink]="'/farmer-login'" class="btn btn-success me-2"> <i class="fa fa-user"></i> Farmer Login</a>
-      <a [routerLink]="'/user-login'" class="btn btn-primary"> <i class="fa fa-user"></i> Customer Login</a>
+      <button (click)="gotofarmer()" class="btn btn-success me-2">
+        <i class="fa fa-user"></i> Farmer Login
+      </button>
+      <button (click)="gotouser()" class="btn btn-primary">
+        <i class="fa fa-user"></i> Customer Login
+      </button>
     </div>
   </div>
 </nav>
 
 <div>
-    <img width="100%" src="https://t4.ftcdn.net/jpg/03/20/39/85/360_F_320398572_P4HHAy08qiRKI9b7GgsHDKy15qwgjlTy.jpg" alt="">
+  <img
+    width="100%"
+    src="https://t4.ftcdn.net/jpg/03/20/39/85/360_F_320398572_P4HHAy08qiRKI9b7GgsHDKy15qwgjlTy.jpg"
+    alt=""
+  />
 </div>
 
 <!-- Product List -->
 
 <div class="container my-5">
-  <h2 class=" mb-4">Available Vegetables</h2>
+  <h2 class="mb-4">Product List</h2>
+  {{ productList | json }}
   <div class="row">
     <!-- Product Card Example -->
-    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
-      <div class="card h-100 shadow-sm">
-        <div class="card-body p-2">
-          <div class="row">
-            <div class="col-md-4">
-               <img src="https://media.istockphoto.com/id/466175630/photo/tomato-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=ELzCVzaiRMgiO7A5zQLkuws0N_lvPxrgJWPn7C7BXz0=" class="card-img-top" alt="Tomato">
-            </div>
-            <div class="col-md-8">
-                 <b class="card-title mb-0">Tomato</b>
-                <small class=" mb-0 d-block">Price: ₹40/kg</small>
-                <small class="mb-0 d-block">Quantity: 10 kg available</small>
+    @for (item of productList(); track item.id) {
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body p-2">
+            <div class="row">
+              <div class="col-md-4">
+                <img [src]="item.image" class="card-img-top" alt="Tomato" width="100" />
+              </div>
+              <div class="col-md-8">
+                <b class="card-title mb-0">{{ item.name }}</b>
+                <small class="mb-0 d-block">Price: ₹{{ item.price }}/kg</small>
+                <small class="mb-0 d-block">Quantity: {{ item.quantity }} kg available</small>
                 <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
-                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
+                <button
+                  class="btn btn-success btn-sm buy-btn"
+                  (click)="selectedId(item)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#buyModal"
+                >
+                  <i class="fa fa-shopping-cart"></i> Buy Now
+                </button>
+              </div>
             </div>
           </div>
-       </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Product List -->
-
-<div class="container my-5">
-  <h2 class=" mb-4">Available Fruits </h2>
-  <div class="row">
-    <!-- Product Card Example -->
-    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
-      <div class="card h-100 shadow-sm">
-        <div class="card-body p-2">
-          <div class="row">
-            <div class="col-md-4">
-               <img src="https://t3.ftcdn.net/jpg/12/84/61/66/360_F_1284616641_CmN8lyHm3QtTL7NWzthuJoBE4FzSJiBZ.jpg" class="card-img-top" alt="Tomato">
-            </div>
-            <div class="col-md-8">
-                 <b class="card-title mb-0">Blackberry </b>
-                <small class=" mb-0 d-block">Price: ₹400/kg</small>
-                <small class="mb-0 d-block">Quantity: 100 kg available</small>
-                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
-                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
-            </div>
-          </div>
-       </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Product List -->
-
-<div class="container my-5">
-  <h2 class=" mb-4">Available Dryed Been </h2>
-  <div class="row">
-    <!-- Product Card Example -->
-    <div class="col-md-4 mb-3" *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]" >
-      <div class="card h-100 shadow-sm">
-        <div class="card-body p-2">
-          <div class="row">
-            <div class="col-md-4">
-               <img src="https://2.wlimg.com/product_images/bc-full/2023/9/2417530/whole-green-gram-1664522259-6564652.jpg" class="card-img-top" alt="Tomato">
-            </div>
-            <div class="col-md-8">
-                 <b class="card-title mb-0">Green Gram </b>
-                <small class=" mb-0 d-block">Price: ₹100/kg</small>
-                <small class="mb-0 d-block">Quantity: 500 kg available</small>
-                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
-                <button class="btn btn-success btn-sm buy-btn" data-bs-toggle="modal" data-bs-target="#buyModal"> <i class="fa fa-shopping-cart"></i> Buy Now</button>
-            </div>
-          </div>
-       </div>
-      </div>
-    </div>
+    } @empty {
+      <p>No products available.</p>
+    }
   </div>
 </div>
 
 <!-- Buy Product Modal -->
-<div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="buyModal"
+  tabindex="-1"
+  aria-labelledby="buyModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-success text-white">
@@ -104,30 +75,125 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <!-- Name -->
-          <div class="mb-3">
-            <label for="customerName" class="form-label">Name</label>
-            <input type="text" id="customerName" class="form-control" placeholder="Enter your name" required>
-          </div>
-          <!-- Contact -->
-          <div class="mb-3">
-            <label for="customerContact" class="form-label">Contact</label>
-            <input type="tel" id="customerContact" class="form-control" placeholder="Enter your contact number" required>
-          </div>
-          <!-- Address -->
-          <div class="mb-3">
-            <label for="customerAddress" class="form-label">Address</label>
-            <textarea id="customerAddress" class="form-control" rows="3" placeholder="Enter your address" required></textarea>
-          </div>
-          <!-- Quantity -->
-          <div class="mb-3">
-            <label for="customerQuantity" class="form-label">Quantity</label>
-            <input type="number" id="customerQuantity" class="form-control" placeholder="Enter quantity" required>
-          </div>
-          <!-- Submit -->
-          <button type="submit" class="btn btn-success w-100">Confirm Purchase</button>
-        </form>
+        @if (canItBuy) {
+          <form #orderForm="ngForm" (ngSubmit)="placeOrder(orderForm)" novalidate>
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="customerName" class="form-label">Name</label>
+              <input
+                type="text"
+                id="customerName"
+                [(ngModel)]="orderData.name"
+                name="name"
+                class="form-control"
+                placeholder="Enter your name"
+                required
+                minlength="3"
+                maxlength="50"
+                #name="ngModel"
+              />
+              <div *ngIf="name.invalid && name.touched" class="text-danger">
+                <small *ngIf="name.errors?.['required']">Name is required.</small>
+                <small *ngIf="name.errors?.['minlength']"
+                  >Name must be at least 3 characters.</small
+                >
+                <small *ngIf="name.errors?.['maxlength']">Name cannot exceed 50 characters.</small>
+              </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="mb-3">
+              <label for="customerContact" class="form-label">Contact</label>
+              <input
+                type="tel"
+                id="customerContact"
+                [(ngModel)]="orderData.phone"
+                name="phone"
+                class="form-control"
+                placeholder="Enter your contact number"
+                required
+                pattern="^[0-9]{10}$"
+                maxlength="10"
+                #phone="ngModel"
+              />
+              <div *ngIf="phone.invalid && phone.touched" class="text-danger">
+                <small *ngIf="phone.errors?.['required']">Contact number is required.</small>
+                <small *ngIf="phone.errors?.['pattern']">Must be a 10‑digit number.</small>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="customerEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                id="customerEmail"
+                [(ngModel)]="orderData.email"
+                name="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+                email
+                #email="ngModel"
+              />
+              <div *ngIf="email.invalid && email.touched" class="text-danger">
+                <small *ngIf="email.errors?.['required']">Email is required.</small>
+                <small *ngIf="email.errors?.['email']">Invalid email format.</small>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-3">
+              <label for="customerAddress" class="form-label">Address</label>
+              <textarea
+                id="customerAddress"
+                [(ngModel)]="orderData.address"
+                name="address"
+                class="form-control"
+                rows="3"
+                placeholder="Enter your address"
+                required
+                minlength="4"
+                #address="ngModel"
+              ></textarea>
+              <div *ngIf="address.invalid && address.touched" class="text-danger">
+                <small *ngIf="address.errors?.['required']">Address is required.</small>
+                <small *ngIf="address.errors?.['minlength']"
+                  >Address must be at least 10 characters.</small
+                >
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="mb-3">
+              <label for="customerQuantity" class="form-label">Quantity</label>
+              <input
+                type="number"
+                id="customerQuantity"
+                [(ngModel)]="orderData.quantity"
+                name="quantity"
+                class="form-control"
+                placeholder="Enter quantity"
+                required
+                min="1"
+                max="100"
+                #quantity="ngModel"
+              />
+              <div *ngIf="quantity.invalid && quantity.touched" class="text-danger">
+                <small *ngIf="quantity.errors?.['required']">Quantity is required.</small>
+                <small *ngIf="quantity.errors?.['min']">Minimum quantity is 1.</small>
+                <small *ngIf="quantity.errors?.['max']">Maximum quantity is 100.</small>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">
+              Place Order
+            </button>
+          </form>
+        } @else {
+          <p>Please login First then you can Buy.</p>
+        }
       </div>
     </div>
   </div>

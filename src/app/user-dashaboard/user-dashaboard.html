@@ -1,5 +1,5 @@
 <div class="bg-dark text-light p-1 px-5">
-<h4 class="">Customer Dashboard</h4>
+  <h4 class="">Customer Dashboard</h4>
 </div>
 <div class="px-5 pt-4">
   <!-- Customer Info -->
@@ -7,102 +7,84 @@
     <div class="card-body">
       <section class="row">
         <div class="col-md-1">
-            <img width="70" height="70" src="https://avatars.githubusercontent.com/u/42931069?v=4" class="rounded-circle" alt="Customer Photo">
+          <img
+            width="70"
+            height="70"
+            src="{{ userDetails.customerImage }}"
+            class="rounded"
+            alt="Customer Photo"
+          />
         </div>
         <div class="col-md-4">
-            <p><strong>Name:</strong> Deepak Sharma</p>
-            <p><strong>Contact:</strong> +91 9876543210</p>
+          <p>
+            <strong>Name:</strong> {{ userDetails.customerFirstName }}
+            {{ userDetails.customerLastName }}
+          </p>
+          <p><strong>Contact:</strong> {{ userDetails.customerPhone }}</p>
         </div>
         <div class="col-md-4">
-            <p><strong>Email:</strong> deepak@example.com</p>
-            <p><strong>Address:</strong> Pune, Maharashtra</p>
+          <p><strong>Email:</strong> {{ userDetails.customerEmail }}</p>
+          <p><strong>Address:</strong> {{ userDetails.customerAddress }}</p>
         </div>
-        <div class="col-md-2 text-end">
-            <button class="btn btn-sm btn-danger" [routerLink]="'/home'"> <i class="fa fa-sign-out"></i> Logout</button>
+        <div class="col-md-3 text-end">
+          <button class="btn btn-sm btn-success mx-3" (click)="goHome()">Back to Home</button>
+          <button class="btn btn-sm btn-danger" (click)="logout()">
+            <i class="fa fa-sign-out"></i> Logout
+          </button>
         </div>
       </section>
-      
-     
-     
     </div>
   </div>
-
+  {{ orders | json }}
   <!-- Tabs -->
-  <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">Orders</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">Cancelled Orders</button>
-    </li>
-  </ul>
 
-  <div class="tab-content mt-3" id="dashboardTabsContent">
-    <!-- Orders Tab -->
-    <div class="tab-pane fade show active" id="orders" role="tabpanel">
-      <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>Order ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>#101</td>
-            <td>Tomato</td>
-            <td>5 kg</td>
-            <td>₹200</td>
-            <td>Pending</td>
-            <td><button class="btn btn-danger btn-sm">Cancel Request</button></td>
-          </tr>
-          <tr *ngFor="let item of [1,1,1,1,1]">
-            <td>#102</td>
-            <td>Potato</td>
-            <td>10 kg</td>
-            <td>₹300</td>
-            <td>Shipped</td>
-            <td><button class="btn btn-danger btn-sm">Cancel Request</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <b>My Orders</b>
 
-    <!-- Cancelled Orders Tab -->
-    <div class="tab-pane fade" id="cancelled" role="tabpanel">
-      <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>Order ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Cancelled Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>#099</td>
-            <td>Onion</td>
-            <td>3 kg</td>
-            <td>₹150</td>
-            <td>28 Jan 2026</td>
-          </tr>
-          <tr>
-            <td>#098</td>
-            <td>Carrot</td>
-            <td>2 kg</td>
-            <td>₹100</td>
-            <td>25 Jan 2026</td>
-          </tr>
-        </tbody>
-      </table>
+  @for (order of orders(); track order.orderId) {
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <small class="text-primary">Product Info</small><br />
+            <small>Name: {{ order.productName }}</small> <br />
+            <small>Price: ₹{{ order.productPrice }}</small
+            ><br />
+            <small>Quantity: {{ order.quantity }} kg</small><br />
+            @if (order.status == 'open') {
+              <button class="btn btn-sm btn-warning" (click)="changeStatus2(order.orderId)">
+                Cancle Order
+              </button>
+            }
+          </div>
+          <div class="col-md-3">
+            <small class="text-primary">Customer Info</small><br />
+            <small>Order Code:#{{ order.orderId }}</small
+            ><br />
+            <small>Name: {{ order.customerName }}</small
+            ><br />
+            <small>Email: {{ order.customerEmail }}</small
+            ><br />
+            <small>Address: {{ order.customerAddress }}</small>
+          </div>
+          <div class="col-md-4">
+            <small class="text-primary">Farmer Info</small><br />
+            <small>Name: {{ order.farmerFirstName }} {{ order.farmerLastName }}</small
+            ><br />
+            <small>Email: {{ order.farmerEmail }}</small
+            ><br />
+            <small>Phone: {{ order.farmerPhone }}</small
+            ><br />
+            <small class="text-success">Status: {{ order.status }}</small>
+          </div>
+          <div class="col-md-2">
+            <img [src]="order.productImage" width="100" />
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  } @empty {
+    <p>No orders found.</p>
+  }
 </div>
 
 <app-footer></app-footer>

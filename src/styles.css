@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+button{
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+     border-radius: 0px !important;
+}
+*{
+     font-size: 13px !important;
+}
+
+table ,
+tr,
+td,
+th{
+    font-size: 12px !important;
+}
+
+input, textarea{
+        padding: 4px 7px !important;
+    border-radius: 0px !important;
+}
+.card{
+     border-radius: 0px !important;
+}

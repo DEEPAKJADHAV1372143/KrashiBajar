@@ -1,51 +1,136 @@
 <div class="user-img">
-    <div class="container  justify-content-center align-items-center ">
-        <div class="card shadow-lg p-4 mt-5" >
-            <h3 class="text-center mb-4">Customer Registration</h3>
-            <form>
-                <section class="row">
-                    <div class="col-md-6">
-                        <!-- Customer Name -->
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Customer Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
-                        </div>
-
-                        <!-- Contact -->
-                        <div class="mb-3">
-                            <label for="contact" class="form-label">Contact Number</label>
-                            <input type="tel" id="contact" class="form-control" placeholder="Enter your contact number" required>
-                        </div>
-
-                        <!-- Photo Upload -->
-                        <div class="mb-3">
-                            <label for="photo" class="form-label">Upload Photo</label>
-                            <input type="file" id="photo" class="form-control" accept="image/*" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                        </div>
-
-                        <!-- Address -->
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <textarea id="address" class="form-control" rows="3" placeholder="Enter your address" required></textarea>
-                        </div>
-                    </div>
-                </section>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-success w-100">Register</button>
-            </form>
-
-            <!-- Back to Login -->
-            <div class="text-center mt-3">
-            <a [routerLink]="'/home'" class="text-decoration-none">Back to Login</a>
-            </div>
+  <div class="container justify-content-center align-items-center">
+    <div class="card shadow-lg p-4 mt-5">
+      <h3 class="text-center mb-4">Customer Registration</h3>
+      <form (ngSubmit)="onSubmit(customerForm)" #customerForm="ngForm" class="row">
+        <!-- First Name -->
+        <div class="pt-2 col-md-6">
+          <label>First Name:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="customerFirstName"
+            [(ngModel)]="customer.customerFirstName"
+            required
+            minlength="3"
+            #firstName="ngModel"
+          />
+          <div class="text-danger" *ngIf="firstName.invalid && firstName.touched">
+            First name is required and must be at least 3 characters.
+          </div>
         </div>
+
+        <!-- Last Name -->
+        <div class="pt-2 col-md-6">
+          <label>Last Name:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="customerLastName"
+            [(ngModel)]="customer.customerLastName"
+            required
+            minlength="3"
+            #lastName="ngModel"
+          />
+          <div class="text-danger" *ngIf="lastName.invalid && lastName.touched">
+            Last name is required and must be at least 3 characters.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="pt-2 col-md-6">
+          <label>Email:</label>
+          <input
+            class="form-control"
+            type="email"
+            name="customerEmail"
+            [(ngModel)]="customer.customerEmail"
+            required
+            #email="ngModel"
+          />
+          <div class="text-danger" *ngIf="email.invalid && email.touched">
+            A valid email is required.
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="pt-2 col-md-6">
+          <label>Phone:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="customerPhone"
+            [(ngModel)]="customer.customerPhone"
+            required
+            pattern="^[0-9]{10}$"
+            maxlength="10"
+            #phone="ngModel"
+          />
+          <div class="text-danger" *ngIf="phone.invalid && phone.touched">
+            Phone is required and must be exactly 10 digits.
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="pt-2 col-md-6">
+          <label>Image URL:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="customerImage"
+            [(ngModel)]="customer.customerImage"
+            required
+            #image="ngModel"
+          />
+          <div class="text-danger" *ngIf="image.invalid && image.touched">
+            Image URL is required.
+          </div>
+        </div>
+
+        <!-- Account -->
+        <div class="pt-2 col-md-6">
+          <label>Account:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="customerAccount"
+            [(ngModel)]="customer.customerAccount"
+            required
+            #account="ngModel"
+          />
+          <div class="text-danger" *ngIf="account.invalid && account.touched">
+            Account is required.
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="pt-2 col-md-6">
+          <label>Address:</label>
+          <textarea
+            name="customerAddress"
+            class="form-control"
+            [(ngModel)]="customer.customerAddress"
+            required
+            #address="ngModel"
+          ></textarea>
+          <div class="text-danger" *ngIf="address.invalid && address.touched">
+            Address is required.
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-md-12 pt-3">
+          <button type="submit" class="btn btn-sm btn-success" [disabled]="customerForm.invalid">
+            Register
+          </button>
+          <button type="reset" class="btn btn-sm btn-danger mx-3">Cancel</button>
+        </div>
+      </form>
+
+      <!-- Back to Login -->
+      <div class="text-center mt-3">
+        <a [routerLink]="'/home'" class="text-decoration-none">Back to Login</a>
+      </div>
     </div>
+  </div>
 </div>
