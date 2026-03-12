@@ -25,7 +25,7 @@
 
 <div class="container my-5">
   <h2 class="mb-4">Product List</h2>
-  {{ productList | json }}
+  <!-- {{ productList() | json }} -->
   <div class="row">
     <!-- Product Card Example -->
     @for (item of productList(); track item.id) {
@@ -40,7 +40,7 @@
                 <b class="card-title mb-0">{{ item.name }}</b>
                 <small class="mb-0 d-block">Price: ₹{{ item.price }}/kg</small>
                 <small class="mb-0 d-block">Quantity: {{ item.quantity }} kg available</small>
-                <small class="mb-0 d-block"><strong>Farmer:</strong> Ramesh Patil</small>
+               
                 <button
                   class="btn btn-success btn-sm buy-btn"
                   (click)="selectedId(item)"

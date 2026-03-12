@@ -60,4 +60,13 @@ export class Myapi {
   updateOrderStatus(id: number, status: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}/status`, { status });
   }
+
+  updateFarmer(farmerId: number, updateData: any): Observable<any> {
+    return this.http.put(`http://localhost:8000/updateFarmer/${farmerId}`, updateData);
+  }
+
+  updateCustomer(farmerId: number, updateData: any): Observable<any> {
+    return this.http.put(`http://localhost:8000/updateCustomer/${farmerId}`, updateData);
+  }
+
 }

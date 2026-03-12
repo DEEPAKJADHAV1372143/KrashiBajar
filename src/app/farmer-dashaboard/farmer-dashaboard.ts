@@ -3,11 +3,15 @@ import { Component, effect, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Footer } from '../footer/footer';
 import { Myapi } from '../myapi';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-farmer-dashaboard',
-  imports: [CommonModule, Footer, FormsModule],
+  imports: [CommonModule, Footer, FormsModule,
+    ReactiveFormsModule,  
+],
   templateUrl: './farmer-dashaboard.html',
   styleUrl: './farmer-dashaboard.css',
 })
@@ -15,9 +19,15 @@ export class FarmerDashaboard implements OnInit {
   orders = signal<any[]>([]);
   farmerId = signal<string | null>(null);
 
+   farmerForm!: FormGroup;
+   farmerDetails: any;
+
+
   constructor(
     private router: Router,
     private myapi: Myapi,
+    private fb: FormBuilder, 
+    private http: HttpClient
   ) {
     effect(() => {
       this.farmarDetails = JSON.parse(localStorage.getItem('farmarDetails') || '{}');
@@ -53,7 +63,49 @@ export class FarmerDashaboard implements OnInit {
     if (fid) {
       this.product.fid = fid;
     }
+
+
+    const storedData = localStorage.getItem('farmarDetails');
+    if (storedData) {
+      this.farmerDetails = JSON.parse(storedData);
+    }
+
+    this.farmerForm = this.fb.group({
+      farmerFirstName: [this.farmerDetails?.farmerFirstName, [Validators.required, Validators.minLength(2)]],
+      farmerLastName: [this.farmerDetails?.farmerLastName, [Validators.required, Validators.minLength(2)]],
+      farmerEmail: [this.farmerDetails?.farmerEmail, [Validators.required, Validators.email]],
+      farmerPhone: [this.farmerDetails?.farmerPhone, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      farmerImage: [this.farmerDetails?.farmerImage],
+      farmerAddress: [this.farmerDetails?.farmerAddress, Validators.required],
+      farmerAccount: [this.farmerDetails?.farmerAccount, Validators.required],
+      username: [this.farmerDetails?.username, [Validators.required, Validators.minLength(5)]],
+      userPassword: ['', [Validators.required, Validators.minLength(6)]] // optional new password
+    });
+
+    
   }
+
+  onUpdate(): void {
+    if (this.farmerForm.invalid) {
+      this.farmerForm.markAllAsTouched();
+      return;
+    }
+
+    const updateData = { ...this.farmerForm.value };
+
+    this.myapi.updateFarmer(this.farmerDetails.farmerId, updateData)
+      .subscribe({
+        next: (res: any) => {
+          alert('Farmer updated successfully! login again');
+          this.logout();
+        },
+        error: (err) => {
+          console.error('Error updating farmer:', err);
+          alert('Update failed');
+        }
+      });
+  }
+
 
   logout() {
     this.router.navigate(['/home']);
@@ -149,4 +201,8 @@ export class FarmerDashaboard implements OnInit {
       },
     });
   }
+
+
+
+
 }

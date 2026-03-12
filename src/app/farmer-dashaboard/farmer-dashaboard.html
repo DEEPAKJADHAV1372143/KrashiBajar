@@ -73,6 +73,18 @@
         Product List
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="setting-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#setting"
+        type="button"
+        role="tab"
+      >
+        Setting
+      </button>
+    </li>
   </ul>
 
   <div class="tab-content mt-3" id="dashboardTabsContent">
@@ -253,6 +265,139 @@
           }
         </tbody>
       </table>
+    </div>
+
+    <div class="tab-pane fade" id="setting" role="tabpanel">
+      <div class="card">
+        <div class="card-body">
+          <b>Update Your Details here</b> <br /><small class="text-warning"
+            >(After update detials account will be logout and we have to login again)</small
+          >
+          <hr />
+          <img [src]="farmerForm.value.farmerImage" alt="Farmer Image" width="100" />
+          <form class="row" [formGroup]="farmerForm" (ngSubmit)="onUpdate()">
+            <div class="pt-4 col-md-6">
+              <label>First Name</label>
+              <input class="form-control" formControlName="farmerFirstName" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerFirstName')?.touched &&
+                  farmerForm.get('farmerFirstName')?.invalid
+                "
+              >
+                First name is required (min 2 chars).
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Last Name</label>
+              <input class="form-control" formControlName="farmerLastName" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerLastName')?.touched &&
+                  farmerForm.get('farmerLastName')?.invalid
+                "
+              >
+                Last name is required (min 2 chars).
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Email</label>
+              <input class="form-control" formControlName="farmerEmail" type="email" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerEmail')?.touched && farmerForm.get('farmerEmail')?.invalid
+                "
+              >
+                Enter a valid email address.
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Phone</label>
+              <input class="form-control" formControlName="farmerPhone" maxlength="10" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerPhone')?.touched && farmerForm.get('farmerPhone')?.invalid
+                "
+              >
+                Phone must be 10 digits.
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Image URL</label>
+              <input class="form-control" formControlName="farmerImage" />
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Address</label>
+              <input class="form-control" formControlName="farmerAddress" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerAddress')?.touched &&
+                  farmerForm.get('farmerAddress')?.invalid
+                "
+              >
+                Address is required.
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Account</label>
+              <input class="form-control" formControlName="farmerAccount" />
+              <small
+                *ngIf="
+                  farmerForm.get('farmerAccount')?.touched &&
+                  farmerForm.get('farmerAccount')?.invalid
+                "
+              >
+                Account is required.
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>Username</label>
+              <input class="form-control" formControlName="username" />
+              <small
+                *ngIf="farmerForm.get('username')?.touched && farmerForm.get('username')?.invalid"
+              >
+                Username is required (min 5 chars).
+              </small>
+            </div>
+
+            <div class="pt-4 col-md-6">
+              <label>New Password</label>
+              <input
+                class="form-control"
+                formControlName="userPassword"
+                type="password"
+                placeholder="Enter new password"
+              />
+              <small
+                *ngIf="
+                  farmerForm.get('userPassword')?.touched &&
+                  farmerForm.get('userPassword')?.hasError('required')
+                "
+              >
+                Password is required.
+              </small>
+              <small
+                *ngIf="
+                  farmerForm.get('userPassword')?.touched &&
+                  farmerForm.get('userPassword')?.hasError('minlength')
+                "
+              >
+                Password must be at least 6 characters.
+              </small>
+            </div>
+            <div class="col-md-12 p-4">
+              <button type="submit" class="btn btn-sm btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
