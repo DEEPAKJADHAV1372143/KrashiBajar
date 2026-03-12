@@ -68,7 +68,7 @@
   aria-labelledby="buyModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="buyModalLabel">Buy Product</h5>
@@ -76,9 +76,9 @@
       </div>
       <div class="modal-body">
         @if (canItBuy) {
-          <form #orderForm="ngForm" (ngSubmit)="placeOrder(orderForm)" novalidate>
+          <form #orderForm="ngForm" class="row" (ngSubmit)="placeOrder(orderForm)" novalidate>
             <!-- Name -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               <label for="customerName" class="form-label">Name</label>
               <input
                 type="text"
@@ -102,7 +102,7 @@
             </div>
 
             <!-- Contact -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               <label for="customerContact" class="form-label">Contact</label>
               <input
                 type="tel"
@@ -123,7 +123,7 @@
             </div>
 
             <!-- Email -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               <label for="customerEmail" class="form-label">Email</label>
               <input
                 type="email"
@@ -143,14 +143,14 @@
             </div>
 
             <!-- Address -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               <label for="customerAddress" class="form-label">Address</label>
               <textarea
                 id="customerAddress"
                 [(ngModel)]="orderData.address"
                 name="address"
                 class="form-control"
-                rows="3"
+                rows="1"
                 placeholder="Enter your address"
                 required
                 minlength="4"
@@ -165,7 +165,7 @@
             </div>
 
             <!-- Quantity -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               <label for="customerQuantity" class="form-label">Quantity</label>
               <input
                 type="number"
@@ -185,11 +185,15 @@
                 <small *ngIf="quantity.errors?.['max']">Maximum quantity is 100.</small>
               </div>
             </div>
-
+             <div class="col-md-6"><br>
+              <small class="text-primary">Payment Mode: <span>Cash On Delivery.</span></small>
+             </div>
             <!-- Submit -->
+             <div class="col-md-12">
             <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">
               Place Order
             </button>
+            </div>
           </form>
         } @else {
           <p>Please login First then you can Buy.</p>
