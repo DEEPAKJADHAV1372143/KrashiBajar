@@ -72,20 +72,13 @@
         </div>
 
         <!-- Image -->
-        <div class="pt-2 col-md-6">
-          <label>Image URL:</label>
-          <input
-            class="form-control"
-            type="text"
-            name="customerImage"
-            [(ngModel)]="customer.customerImage"
-            required
-            #image="ngModel"
-          />
-          <div class="text-danger" *ngIf="image.invalid && image.touched">
-            Image URL is required.
-          </div>
-        </div>
+       <div class="pt-2 col-md-6">
+  <label>Customer Image:</label>
+  <input class="form-control" type="file" (change)="onFileSelected($event)" required />
+  <div class="text-danger" *ngIf="!selectedFile && customerForm.submitted">
+    Image is required.
+  </div>
+</div>
 
         <!-- Account -->
         <div class="pt-2 col-md-6">

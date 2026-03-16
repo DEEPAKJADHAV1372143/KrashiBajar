@@ -10,7 +10,7 @@
           <img
             width="70"
             height="70"
-            src="{{ farmarDetails.farmerImage }}"
+            src="{{ url+farmarDetails.farmerImage }}"
             class="rounded"
             alt="Customer Photo"
           />
@@ -95,7 +95,7 @@
           <div class="card-body">
             <section class="row">
               <div class="col-md-3">
-                <img [src]="order.productImage" alt="img" width="100" /><br />
+                <img [src]="url+order.productImage" alt="img" width="100" /><br />
                 @if (order.status == 'open') {
                   <button class="btn btn-sm btn-warning" (click)="changeStatus(order.orderId)">
                     InProgress
@@ -104,6 +104,12 @@
                 @if (order.status == 'open') {
                   <button class="btn btn-sm btn-info m-1" (click)="changeStatus2(order.orderId)">
                     Cancel
+                  </button>
+                }
+
+                @if (order.status !== 'Completed') {
+                  <button class="btn btn-sm btn-info m-1" (click)="changeStatus3(order.orderId)">
+                    Completed
                   </button>
                 }
               </div>
@@ -152,82 +158,55 @@
       <div class="container justify-content-center align-items-center">
         <div class="card shadow-lg p-4 mt-5">
           <h3 class="text-center mb-4">Add New Product</h3>
-          <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm" class="row">
-            <!-- Product Name -->
-            <div class="pt-2 col-md-6">
-              <label>Product Name:</label>
-              <input
-                class="form-control"
-                type="text"
-                name="name"
-                [(ngModel)]="product.name"
-                required
-                minlength="3"
-                #name="ngModel"
-              />
-              <div class="text-danger" *ngIf="name.invalid && name.touched">
-                Product name is required and must be at least 3 characters.
-              </div>
-            </div>
+          <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm" class="row" enctype="multipart/form-data">
+  <!-- Product Name -->
+  <div class="pt-2 col-md-6">
+    <label>Product Name:</label>
+    <input class="form-control" type="text" name="name"
+           [(ngModel)]="product.name" required minlength="3" #name="ngModel" />
+    <div class="text-danger" *ngIf="name.invalid && name.touched">
+      Product name is required and must be at least 3 characters.
+    </div>
+  </div>
 
-            <!-- Image URL -->
-            <div class="pt-2 col-md-6">
-              <label>Image URL:</label>
-              <input
-                class="form-control"
-                type="text"
-                name="image"
-                [(ngModel)]="product.image"
-                required
-                #image="ngModel"
-              />
-              <div class="text-danger" *ngIf="image.invalid && image.touched">
-                Image URL is required.
-              </div>
-            </div>
+  <!-- Image Upload -->
+  <div class="pt-2 col-md-6">
+    <label>Product Image:</label>
+    <input class="form-control" type="file" (change)="onFileSelected($event)" required />
+    <div class="text-danger" *ngIf="!selectedFile && productForm.submitted">
+      Image is required.
+    </div>
+    <div class="text-danger" *ngIf="fileError">{{ fileError }}</div>
+  </div>
 
-            <!-- Price -->
-            <div class="pt-2 col-md-6">
-              <label>Price:</label>
-              <input
-                class="form-control"
-                type="number"
-                name="price"
-                [(ngModel)]="product.price"
-                required
-                min="1"
-                #price="ngModel"
-              />
-              <div class="text-danger" *ngIf="price.invalid && price.touched">
-                Price is required and must be greater than 0.
-              </div>
-            </div>
+  <!-- Price -->
+  <div class="pt-2 col-md-6">
+    <label>Price:</label>
+    <input class="form-control" type="number" name="price"
+           [(ngModel)]="product.price" required min="1" #price="ngModel" />
+    <div class="text-danger" *ngIf="price.invalid && price.touched">
+      Price is required and must be greater than 0.
+    </div>
+  </div>
 
-            <!-- Quantity -->
-            <div class="pt-2 col-md-6">
-              <label>Quantity:</label>
-              <input
-                class="form-control"
-                type="number"
-                name="quantity"
-                [(ngModel)]="product.quantity"
-                required
-                min="1"
-                #quantity="ngModel"
-              />
-              <div class="text-danger" *ngIf="quantity.invalid && quantity.touched">
-                Quantity is required and must be at least 1.
-              </div>
-            </div>
+  <!-- Quantity -->
+  <div class="pt-2 col-md-6">
+    <label>Quantity:</label>
+    <input class="form-control" type="number" name="quantity"
+           [(ngModel)]="product.quantity" required min="1" #quantity="ngModel" />
+    <div class="text-danger" *ngIf="quantity.invalid && quantity.touched">
+      Quantity is required and must be at least 1.
+    </div>
+  </div>
 
-            <!-- Buttons -->
-            <div class="col-md-12 pt-3">
-              <button type="submit" class="btn btn-sm btn-success" [disabled]="productForm.invalid">
-                Add Product
-              </button>
-              <button type="reset" class="btn btn-sm btn-danger mx-3">Cancel</button>
-            </div>
-          </form>
+  <!-- Buttons -->
+  <div class="col-md-12 pt-3">
+    <button type="submit" class="btn btn-sm btn-success" [disabled]="productForm.invalid">
+      Add Product
+    </button>
+    <button type="reset" class="btn btn-sm btn-danger mx-3">Cancel</button>
+  </div>
+</form>
         </div>
       </div>
     </div>
@@ -252,7 +231,7 @@
               <td>{{ x.name }}</td>
               <td>{{ x.quantity }}</td>
               <td>{{ x.price }}</td>
-              <td><img [src]="x.image" width="80" /></td>
+              <td><img [src]="'http://localhost:8000/uploads/' + x.image" width="80" /></td>
               <td>
                 <button class="btn btn-sm btn-danger" (click)="deleteProduct(x.id)">Delete</button>
                 <!-- <button class="btn btn-sm btn-primary mx-2">Edit</button> -->
@@ -274,8 +253,8 @@
             >(After update detials account will be logout and we have to login again)</small
           >
           <hr />
-          <img [src]="farmerForm.value.farmerImage" alt="Farmer Image" width="100" />
-          <form class="row" [formGroup]="farmerForm" (ngSubmit)="onUpdate()">
+          <img [src]="url+farmerForm.value.farmerImage" alt="Farmer Image" width="100" />
+          <form class="row" [formGroup]="farmerForm" (ngSubmit)="onUpdate()" enctype="multipart/form-data">
             <div class="pt-4 col-md-6">
               <label>First Name</label>
               <input class="form-control" formControlName="farmerFirstName" />
@@ -284,6 +263,7 @@
                   farmerForm.get('farmerFirstName')?.touched &&
                   farmerForm.get('farmerFirstName')?.invalid
                 "
+                class="text-danger"
               >
                 First name is required (min 2 chars).
               </small>
@@ -297,6 +277,7 @@
                   farmerForm.get('farmerLastName')?.touched &&
                   farmerForm.get('farmerLastName')?.invalid
                 "
+                  class="text-danger"
               >
                 Last name is required (min 2 chars).
               </small>
@@ -308,7 +289,7 @@
               <small
                 *ngIf="
                   farmerForm.get('farmerEmail')?.touched && farmerForm.get('farmerEmail')?.invalid
-                "
+                "  class="text-danger"
               >
                 Enter a valid email address.
               </small>
@@ -320,16 +301,20 @@
               <small
                 *ngIf="
                   farmerForm.get('farmerPhone')?.touched && farmerForm.get('farmerPhone')?.invalid
-                "
+                "  class="text-danger"
               >
                 Phone must be 10 digits.
               </small>
             </div>
 
-            <div class="pt-4 col-md-6">
-              <label>Image URL</label>
-              <input class="form-control" formControlName="farmerImage" />
-            </div>
+           <div class="pt-4 col-md-6">
+  <label>Farmer Image</label>
+  <input type="file" class="form-control" (change)="onFileSelected2($event)" />
+  <small *ngIf="!selectedFile && farmerForm.touched" class="text-danger">
+    Image is required.
+  </small>
+</div>
+
 
             <div class="pt-4 col-md-6">
               <label>Address</label>
@@ -338,7 +323,7 @@
                 *ngIf="
                   farmerForm.get('farmerAddress')?.touched &&
                   farmerForm.get('farmerAddress')?.invalid
-                "
+                "  class="text-danger"
               >
                 Address is required.
               </small>
@@ -351,7 +336,7 @@
                 *ngIf="
                   farmerForm.get('farmerAccount')?.touched &&
                   farmerForm.get('farmerAccount')?.invalid
-                "
+                "  class="text-danger"
               >
                 Account is required.
               </small>
@@ -361,7 +346,7 @@
               <label>Username</label>
               <input class="form-control" formControlName="username" />
               <small
-                *ngIf="farmerForm.get('username')?.touched && farmerForm.get('username')?.invalid"
+                *ngIf="farmerForm.get('username')?.touched && farmerForm.get('username')?.invalid"   class="text-danger"
               >
                 Username is required (min 5 chars).
               </small>
@@ -379,7 +364,8 @@
                 *ngIf="
                   farmerForm.get('userPassword')?.touched &&
                   farmerForm.get('userPassword')?.hasError('required')
-                "
+                " 
+                class="text-danger"
               >
                 Password is required.
               </small>
@@ -388,6 +374,7 @@
                   farmerForm.get('userPassword')?.touched &&
                   farmerForm.get('userPassword')?.hasError('minlength')
                 "
+                 class="text-danger"
               >
                 Password must be at least 6 characters.
               </small>

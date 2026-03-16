@@ -11,29 +11,51 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './farmer-register.css',
 })
 export class FarmerRegister {
-  farmer = {
-    farmerFirstName: '',
-    farmerLastName: '',
-    farmerEmail: '',
-    farmerPhone: '',
-    farmerImage: '',
-    farmerAddress: '',
-    farmerAccount: '',
-  };
-
   constructor(private myapi: Myapi) {}
 
-  onSubmit(form: NgForm) {
-    this.myapi.registerFarmer(this.farmer).subscribe({
-      next: (response) => {
-        console.log('Farmer registered successfully:', response);
-        alert('Registration successful!');
-        form.reset();
-      },
-      error: (err) => {
-        console.error('Error registering farmer:', err);
-        alert('Registration failed!');
-      },
-    });
+  farmer = {
+  farmerFirstName: '',
+  farmerLastName: '',
+  farmerEmail: '',
+  farmerPhone: '',
+  farmerAddress: '',
+  farmerAccount: ''
+};
+
+selectedFile: File | null = null;
+
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
   }
+}
+
+onSubmit(form: NgForm) {
+  if (form.invalid || !this.selectedFile) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('farmerFirstName', this.farmer.farmerFirstName);
+  formData.append('farmerLastName', this.farmer.farmerLastName);
+  formData.append('farmerEmail', this.farmer.farmerEmail);
+  formData.append('farmerPhone', this.farmer.farmerPhone);
+  formData.append('farmerAddress', this.farmer.farmerAddress);
+  formData.append('farmerAccount', this.farmer.farmerAccount);
+  formData.append('farmerImage', this.selectedFile);
+
+  this.myapi.registerFarmer(formData).subscribe({
+    next: (response) => {
+      console.log('Farmer registered successfully:', response);
+      alert('Registration successful!');
+      form.reset();
+      this.selectedFile = null;
+    },
+    error: (err) => {
+      console.error('Error registering farmer:', err);
+      alert('Registration failed!');
+    },
+  });
+}
 }

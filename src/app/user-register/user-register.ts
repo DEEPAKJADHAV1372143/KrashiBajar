@@ -11,29 +11,53 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './user-register.css',
 })
 export class UserRegister {
-  customer = {
-    customerFirstName: '',
-    customerLastName: '',
-    customerEmail: '',
-    customerPhone: '',
-    customerImage: '',
-    customerAddress: '',
-    customerAccount: '',
-  };
+ 
 
   constructor(private myapi: Myapi) {}
 
-  onSubmit(form: NgForm) {
-    this.myapi.registerCustomer(this.customer).subscribe({
-      next: (response) => {
-        console.log('Customer registered successfully:', response);
-        alert('Registration successful!');
-        form.reset();
-      },
-      error: (err) => {
-        console.error('Error registering Customer:', err);
-        alert('Registration failed!');
-      },
-    });
+ customer = {
+  customerFirstName: '',
+  customerLastName: '',
+  customerEmail: '',
+  customerPhone: '',
+  customerAddress: '',
+  customerAccount: ''
+};
+
+selectedFile: File | null = null;
+
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
   }
+}
+
+onSubmit(form: NgForm) {
+  if (form.invalid || !this.selectedFile) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('customerFirstName', this.customer.customerFirstName);
+  formData.append('customerLastName', this.customer.customerLastName);
+  formData.append('customerEmail', this.customer.customerEmail);
+  formData.append('customerPhone', this.customer.customerPhone);
+  formData.append('customerAddress', this.customer.customerAddress);
+  formData.append('customerAccount', this.customer.customerAccount);
+  formData.append('customerImage', this.selectedFile);
+
+  this.myapi.registerCustomer(formData).subscribe({
+    next: (response) => {
+      console.log('Customer registered successfully:', response);
+      alert('Registration successful!');
+      form.reset();
+      this.selectedFile = null;
+    },
+    error: (err) => {
+      console.error('Error registering Customer:', err);
+      alert('Registration failed!');
+    },
+  });
+}
 }

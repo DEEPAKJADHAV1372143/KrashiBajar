@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './farmer-dashaboard.css',
 })
 export class FarmerDashaboard implements OnInit {
+  url:any='http://localhost:8000/uploads/';
   orders = signal<any[]>([]);
   farmerId = signal<string | null>(null);
 
@@ -75,7 +76,7 @@ export class FarmerDashaboard implements OnInit {
       farmerLastName: [this.farmerDetails?.farmerLastName, [Validators.required, Validators.minLength(2)]],
       farmerEmail: [this.farmerDetails?.farmerEmail, [Validators.required, Validators.email]],
       farmerPhone: [this.farmerDetails?.farmerPhone, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      farmerImage: [this.farmerDetails?.farmerImage],
+      farmerImage: [this.farmerDetails?.farmerImage, Validators.required],
       farmerAddress: [this.farmerDetails?.farmerAddress, Validators.required],
       farmerAccount: [this.farmerDetails?.farmerAccount, Validators.required],
       username: [this.farmerDetails?.username, [Validators.required, Validators.minLength(5)]],
@@ -85,27 +86,45 @@ export class FarmerDashaboard implements OnInit {
     
   }
 
-  onUpdate(): void {
-    if (this.farmerForm.invalid) {
-      this.farmerForm.markAllAsTouched();
-      return;
-    }
+ selectedFile2: File | null = null;
 
-    const updateData = { ...this.farmerForm.value };
+onFileSelected2(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile2 = file;
+  }
+}
 
-    this.myapi.updateFarmer(this.farmerDetails.farmerId, updateData)
-      .subscribe({
-        next: (res: any) => {
-          alert('Farmer updated successfully! login again');
-          this.logout();
-        },
-        error: (err) => {
-          console.error('Error updating farmer:', err);
-          alert('Update failed');
-        }
-      });
+onUpdate(): void {
+  if (this.farmerForm.invalid) {
+    this.farmerForm.markAllAsTouched();
+    return;
   }
 
+  const formData = new FormData();
+  Object.keys(this.farmerForm.value).forEach(key => {
+    formData.append(key, this.farmerForm.value[key]);
+  });
+
+  if (this.selectedFile2) {
+    formData.append('farmerImage', this.selectedFile2);
+  }
+
+  this.myapi.updateFarmer(this.farmerDetails.farmerId, formData)
+    .subscribe({
+      next: (res: any) => {
+        alert('Farmer updated successfully! login again');
+        this.logout();
+      },
+      error: (err) => {
+        console.error('Error updating farmer:', err);
+        alert('Update failed');
+      }
+    });
+}
+
+
+  
 
   logout() {
     this.router.navigate(['/home']);
@@ -128,6 +147,21 @@ export class FarmerDashaboard implements OnInit {
   }
 
   changeStatus2(orderId: number, newStatus: string = 'Canceled') {
+    this.myapi.updateOrderStatus(orderId, newStatus).subscribe({
+      next: (res) => {
+        console.log(res.message);
+        // Update local signal so UI reflects change
+        this.orders.update((current) =>
+          current.map((o) => (o.orderId === orderId ? { ...o, status: newStatus } : o)),
+        );
+      },
+      error: (err) => {
+        console.error('Error updating status:', err);
+      },
+    });
+  }
+
+   changeStatus3(orderId: number, newStatus: string = 'Completed') {
     this.myapi.updateOrderStatus(orderId, newStatus).subscribe({
       next: (res) => {
         console.log(res.message);
@@ -178,29 +212,60 @@ export class FarmerDashaboard implements OnInit {
   }
 
   product = {
-    name: '',
-    image: '',
-    price: null,
-    quantity: null,
-    fid: '', // will be set from localStorage
-  };
+  name: '',
+  price: '',
+  quantity: '',
+  fid: '', // set from farmerDetails
+};
 
-  onSubmit(form: any) {
-    this.product.fid = this.farmarDetails.farmerId;
-    this.myapi.insertProduct(this.product).subscribe({
-      next: (res) => {
-        console.log('Product added:', res);
-        alert('Product inserted successfully!');
-        form.reset();
-        this.product.fid = this.farmarDetails.farmerid; // re-set fid after reset
-        this.myAllProduct(this.farmarDetails.farmerId);
-      },
-      error: (err) => {
-        console.error('Error inserting product:', err);
-        alert('Failed to insert product');
-      },
-    });
+selectedFile: File | null = null;
+fileError: string | null = null;
+
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+      this.fileError = 'Only JPG or PNG images are allowed.';
+      this.selectedFile = null;
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      this.fileError = 'File size must be under 2MB.';
+      this.selectedFile = null;
+      return;
+    }
+    this.fileError = null;
+    this.selectedFile = file;
   }
+}
+
+onSubmit(form: any) {
+  if (form.invalid || !this.selectedFile) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('name', this.product.name);
+  formData.append('price', this.product.price?.toString() || '');
+  formData.append('quantity', this.product.quantity?.toString() || '');
+  formData.append('fid', this.farmarDetails.farmerId.toString());
+  formData.append('image', this.selectedFile);
+
+  this.myapi.insertProduct(formData).subscribe({
+    next: (res) => {
+      console.log('Product added:', res);
+      alert('Product inserted successfully!');
+      form.reset();
+      this.product.fid = this.farmarDetails.farmerId;
+      this.myAllProduct(this.farmarDetails.farmerId);
+    },
+    error: (err) => {
+      console.error('Error inserting product:', err);
+      alert('Failed to insert product');
+    },
+  });
+}
 
 
 

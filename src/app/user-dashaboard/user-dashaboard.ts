@@ -15,7 +15,7 @@ export class UserDashaboard implements OnInit {
   orders = signal<any[]>([]);
   cid = signal<string | null>(null);
 
-
+  url:any='http://localhost:8000/uploads/';
 
   customerForm!: FormGroup;
 
@@ -55,9 +55,9 @@ export class UserDashaboard implements OnInit {
     customerLastName: [this.customerDetails?.customerLastName, Validators.required],
     customerEmail: [this.customerDetails?.customerEmail, [Validators.required, Validators.email]],
     customerPhone: [this.customerDetails?.customerPhone, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-    customerImage: [this.customerDetails?.customerImage],
-    customerAddress: [this.customerDetails?.customerAddress],
-    customerAccount: [this.customerDetails?.customerAccount],
+    customerImage: [this.customerDetails?.customerImage, Validators.required],
+    customerAddress: [this.customerDetails?.customerAddress, Validators.required],
+    customerAccount: [this.customerDetails?.customerAccount, Validators.required],
     username: [this.customerDetails?.username, Validators.required],
     userPassword: ['', [Validators.required, Validators.minLength(6)]], // optional new password
   });
@@ -65,15 +65,31 @@ export class UserDashaboard implements OnInit {
   }
 
 
-  onUpdate(): void {
+  selectedFile: File | null = null;
+
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+  }
+}
+
+onUpdate(): void {
   if (this.customerForm.invalid) {
     this.customerForm.markAllAsTouched();
     return;
   }
 
-  const updateData = { ...this.customerForm.value };
+  const formData = new FormData();
+  Object.keys(this.customerForm.value).forEach(key => {
+    formData.append(key, this.customerForm.value[key]);
+  });
 
-  this.myapi.updateCustomer(this.customerDetails.customerId, updateData)
+  if (this.selectedFile) {
+    formData.append('customerImage', this.selectedFile);
+  }
+
+  this.myapi.updateCustomer(this.customerDetails.customerId, formData)
     .subscribe({
       next: (res: any) => {
         alert('Customer updated successfully! login again');

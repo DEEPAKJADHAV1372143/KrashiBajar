@@ -34,7 +34,7 @@
           <div class="card-body p-2">
             <div class="row">
               <div class="col-md-4">
-                <img [src]="item.image" class="card-img-top" alt="Tomato" width="100" />
+                <img [src]="'http://localhost:8000/uploads/' + item.image" class="card-img-top" alt="Tomato" width="100" />
               </div>
               <div class="col-md-8">
                 <b class="card-title mb-0">{{ item.name }}</b>

@@ -10,7 +10,7 @@
           <img
             width="70"
             height="70"
-            src="{{ userDetails.customerImage }}"
+            src="{{ url+userDetails.customerImage }}"
             class="rounded"
             alt="Customer Photo"
           />
@@ -104,7 +104,7 @@
                 <small class="text-success">Status: {{ order.status }}</small>
               </div>
               <div class="col-md-2">
-                <img [src]="order.productImage" width="100" />
+                <img [src]="url+order.productImage" width="100" />
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@
             >(After update detials account will be logout and we have to login again)</small
           >
           <hr />
-          <img [src]="customerForm.value.customerImage" alt="Customer Image" width="100" />
+          <img [src]="url+customerForm.value.customerImage" alt="Customer Image" width="100" />
 
           <form class="row" [formGroup]="customerForm" (ngSubmit)="onUpdate()">
             <div class="pt-4 col-md-6">
@@ -131,7 +131,7 @@
                 *ngIf="
                   customerForm.get('customerFirstName')?.touched &&
                   customerForm.get('customerFirstName')?.invalid
-                "
+                "   class="text-danger"
               >
                 First name is required (min 2 chars).
               </small>
@@ -144,7 +144,7 @@
                 *ngIf="
                   customerForm.get('customerLastName')?.touched &&
                   customerForm.get('customerLastName')?.invalid
-                "
+                "   class="text-danger"
               >
                 Last name is required (min 2 chars).
               </small>
@@ -157,7 +157,7 @@
                 *ngIf="
                   customerForm.get('customerEmail')?.touched &&
                   customerForm.get('customerEmail')?.invalid
-                "
+                "   class="text-danger"
               >
                 Enter a valid email address.
               </small>
@@ -170,16 +170,19 @@
                 *ngIf="
                   customerForm.get('customerPhone')?.touched &&
                   customerForm.get('customerPhone')?.invalid
-                "
+                "   class="text-danger"
               >
                 Phone must be 10 digits.
               </small>
             </div>
 
             <div class="pt-4 col-md-6">
-              <label>Image URL</label>
-              <input class="form-control" formControlName="customerImage" />
-            </div>
+  <label>Customer Image</label>
+  <input type="file" class="form-control" (change)="onFileSelected($event)" />
+  <small *ngIf="!selectedFile && customerForm.touched" class="text-danger">
+    Image is required.
+  </small>
+</div>
 
             <div class="pt-4 col-md-6">
               <label>Address</label>
@@ -188,7 +191,8 @@
                 *ngIf="
                   customerForm.get('customerAddress')?.touched &&
                   customerForm.get('customerAddress')?.invalid
-                "
+                "   
+                class="text-danger"
               >
                 Address is required.
               </small>
@@ -201,7 +205,7 @@
                 *ngIf="
                   customerForm.get('customerAccount')?.touched &&
                   customerForm.get('customerAccount')?.invalid
-                "
+                "   class="text-danger"
               >
                 Account is required.
               </small>
@@ -213,7 +217,7 @@
               <small
                 *ngIf="
                   customerForm.get('username')?.touched && customerForm.get('username')?.invalid
-                "
+                "   class="text-danger"
               >
                 Username is required (min 5 chars).
               </small>
@@ -232,7 +236,7 @@
                 *ngIf="
                   customerForm.get('userPassword')?.touched &&
                   customerForm.get('userPassword')?.hasError('required')
-                "
+                "  class="text-danger"
               >
                 Password is required.
               </small>
@@ -251,6 +255,7 @@
               <button type="submit" class="btn btn-sm btn-primary">Update</button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
