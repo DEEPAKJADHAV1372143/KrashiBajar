@@ -69,4 +69,12 @@ export class Myapi {
     return this.http.put(`http://localhost:8000/updateCustomer/${farmerId}`, updateData);
   }
 
+   registerAdmin(formData: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:8000/registerAdmin', formData);
+  }
+
+  loginAdmin(formData: any): Observable<any> {
+    return this.http.post<any>('http://localhost:8000/adminLogin', formData);
+  }
+
 }

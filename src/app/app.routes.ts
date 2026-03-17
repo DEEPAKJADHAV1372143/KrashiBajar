@@ -9,6 +9,9 @@ import { UserDashaboard } from './user-dashaboard/user-dashaboard';
 import { auth2Guard } from './auth2-guard';
 import { authGuard } from './auth-guard';
 import { PageNotFound } from './page-not-found/page-not-found';
+import { AdminLogin } from './Admin/admin-login/admin-login';
+import { AdminDashaboard } from './Admin/admin-dashaboard/admin-dashaboard';
+import { AdminRegister } from './Admin/admin-register/admin-register';
 
 export const routes: Routes = [
     {path:'', component: Home},
@@ -19,6 +22,9 @@ export const routes: Routes = [
     {path:'user-login', component:UserLogin},
     {path:'user-register', component:UserRegister},
     {path:'user-dashboard', component:UserDashaboard ,canActivate: [authGuard] }, 
+    {path:'admin', component:AdminLogin},
+    {path:'admin-dashboard', component:AdminDashaboard},
+    {path:'admin-register', component:AdminRegister},
     { path: '**', component: PageNotFound }
 
 ];

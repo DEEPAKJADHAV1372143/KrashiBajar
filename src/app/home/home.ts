@@ -37,6 +37,7 @@ export class Home implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.buyId='';
     this.canItBuy = false;
     this.userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
     this.farmerDetial = JSON.parse(localStorage.getItem('farmarDetails') || '{}');
