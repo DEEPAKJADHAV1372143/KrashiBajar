@@ -12,6 +12,7 @@ import { PageNotFound } from './page-not-found/page-not-found';
 import { AdminLogin } from './Admin/admin-login/admin-login';
 import { AdminDashaboard } from './Admin/admin-dashaboard/admin-dashaboard';
 import { AdminRegister } from './Admin/admin-register/admin-register';
+import { adminGuard } from './admin-guard';
 
 export const routes: Routes = [
     {path:'', component: Home},
@@ -23,7 +24,7 @@ export const routes: Routes = [
     {path:'user-register', component:UserRegister},
     {path:'user-dashboard', component:UserDashaboard ,canActivate: [authGuard] }, 
     {path:'admin', component:AdminLogin},
-    {path:'admin-dashboard', component:AdminDashaboard},
+    {path:'admin-dashboard', component:AdminDashaboard , canActivate: [adminGuard]},
     {path:'admin-register', component:AdminRegister},
     { path: '**', component: PageNotFound }
 

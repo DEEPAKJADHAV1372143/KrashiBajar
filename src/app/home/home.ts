@@ -61,6 +61,14 @@ export class Home implements OnInit {
     }
   }
 
+  admin(){
+    if (this.userDetails && Object.keys(this.userDetails).length > 0) {
+      this.router.navigate(['/admin']);
+    } else {
+      this.router.navigate(['']);
+    }
+  }
+
   gotofarmer() {
     if (this.farmerDetial && Object.keys(this.farmerDetial).length > 0) {
       this.router.navigate(['/farmer-dashboard']);

@@ -35,7 +35,7 @@ export class AdminLogin {
       next: (res: any) => {
         this.successMessage = res.message;
         this.errorMessage = '';
-         localStorage.setItem('adminDetails', JSON.stringify(res));
+         localStorage.setItem('adminDetails', JSON.stringify(res.adminDetails));
         form.reset();
         this.router.navigate(['/admin-dashboard']);
        

@@ -77,4 +77,10 @@ export class Myapi {
     return this.http.post<any>('http://localhost:8000/adminLogin', formData);
   }
 
+   getAllTables(): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/krashibajar/all');
+  }
+
+  
+
 }
