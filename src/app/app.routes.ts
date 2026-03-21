@@ -25,7 +25,7 @@ export const routes: Routes = [
     {path:'user-dashboard', component:UserDashaboard ,canActivate: [authGuard] }, 
     {path:'admin', component:AdminLogin},
     {path:'admin-dashboard', component:AdminDashaboard , canActivate: [adminGuard]},
-    {path:'admin-register', component:AdminRegister},
+    // {path:'admin-register', component:AdminRegister},
     { path: '**', component: PageNotFound }
 
 ];

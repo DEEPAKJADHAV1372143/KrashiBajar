@@ -3,11 +3,17 @@ import { Component, effect, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Footer } from '../footer/footer';
 import { Myapi } from '../myapi';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-user-dashaboard',
-  imports: [CommonModule, Footer, ReactiveFormsModule],
+  imports: [CommonModule, Footer, FormsModule, ReactiveFormsModule],
   templateUrl: './user-dashaboard.html',
   styleUrl: './user-dashaboard.css',
 })
@@ -15,14 +21,14 @@ export class UserDashaboard implements OnInit {
   orders = signal<any[]>([]);
   cid = signal<string | null>(null);
 
-  url:any='http://localhost:8000/uploads/';
+  url: any = 'http://localhost:8000/uploads/';
 
   customerForm!: FormGroup;
 
   constructor(
     private router: Router,
     private myapi: Myapi,
-     private fb: FormBuilder, 
+    private fb: FormBuilder,
   ) {
     effect(() => {
       const customerId = this.cid();
@@ -39,58 +45,60 @@ export class UserDashaboard implements OnInit {
   }
 
   userDetails: any;
-  customerDetails:any;
+  customerDetails: any;
   ngOnInit(): void {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
 
     this.cid.set(this.userDetails.customerId);
 
-     const storedData = localStorage.getItem('userDetails');
-  if (storedData) {
-    this.customerDetails = JSON.parse(storedData);
+    const storedData = localStorage.getItem('userDetails');
+    if (storedData) {
+      this.customerDetails = JSON.parse(storedData);
+    }
+
+    this.loadQueries();
+
+    this.customerForm = this.fb.group({
+      customerFirstName: [this.customerDetails?.customerFirstName, Validators.required],
+      customerLastName: [this.customerDetails?.customerLastName, Validators.required],
+      customerEmail: [this.customerDetails?.customerEmail, [Validators.required, Validators.email]],
+      customerPhone: [
+        this.customerDetails?.customerPhone,
+        [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+      ],
+      customerImage: [this.customerDetails?.customerImage, Validators.required],
+      customerAddress: [this.customerDetails?.customerAddress, Validators.required],
+      customerAccount: [this.customerDetails?.customerAccount, Validators.required],
+      username: [this.customerDetails?.username, Validators.required],
+      userPassword: ['', [Validators.required, Validators.minLength(6)]], // optional new password
+    });
   }
-
-  this.customerForm = this.fb.group({
-    customerFirstName: [this.customerDetails?.customerFirstName, Validators.required],
-    customerLastName: [this.customerDetails?.customerLastName, Validators.required],
-    customerEmail: [this.customerDetails?.customerEmail, [Validators.required, Validators.email]],
-    customerPhone: [this.customerDetails?.customerPhone, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-    customerImage: [this.customerDetails?.customerImage, Validators.required],
-    customerAddress: [this.customerDetails?.customerAddress, Validators.required],
-    customerAccount: [this.customerDetails?.customerAccount, Validators.required],
-    username: [this.customerDetails?.username, Validators.required],
-    userPassword: ['', [Validators.required, Validators.minLength(6)]], // optional new password
-  });
-
-  }
-
 
   selectedFile: File | null = null;
 
-onFileSelected(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
-  }
-}
-
-onUpdate(): void {
-  if (this.customerForm.invalid) {
-    this.customerForm.markAllAsTouched();
-    return;
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
   }
 
-  const formData = new FormData();
-  Object.keys(this.customerForm.value).forEach(key => {
-    formData.append(key, this.customerForm.value[key]);
-  });
+  onUpdate(): void {
+    if (this.customerForm.invalid) {
+      this.customerForm.markAllAsTouched();
+      return;
+    }
 
-  if (this.selectedFile) {
-    formData.append('customerImage', this.selectedFile);
-  }
+    const formData = new FormData();
+    Object.keys(this.customerForm.value).forEach((key) => {
+      formData.append(key, this.customerForm.value[key]);
+    });
 
-  this.myapi.updateCustomer(this.customerDetails.customerId, formData)
-    .subscribe({
+    if (this.selectedFile) {
+      formData.append('customerImage', this.selectedFile);
+    }
+
+    this.myapi.updateCustomer(this.customerDetails.customerId, formData).subscribe({
       next: (res: any) => {
         alert('Customer updated successfully! login again');
         this.logout();
@@ -98,10 +106,9 @@ onUpdate(): void {
       error: (err) => {
         console.error('Error updating customer:', err);
         alert('Update failed');
-      }
+      },
     });
-}
-
+  }
 
   logout() {
     this.router.navigate(['/home']);
@@ -125,6 +132,48 @@ onUpdate(): void {
       error: (err) => {
         console.error('Error updating status:', err);
       },
+    });
+  }
+
+  newQuery = {
+    userId: 0,
+    body: '',
+    whoText: 'customer',
+    status: 'open',
+  };
+
+  addQuery(form: any): void {
+    this.newQuery.userId = this.userDetails.customerId;
+    this.newQuery.status = 'open';
+    this.newQuery.whoText = 'customer';
+    this.myapi.addQuery(this.newQuery).subscribe((res) => {
+      alert(res.message);
+      // Reset the form after successful submit
+      this.loadQueries();
+      form.resetForm({
+        userId: this.newQuery.userId,
+        status: 'open',
+        whoText: 'customer',
+      });
+    });
+  }
+
+  cancelForm(form: any): void {
+    // Reset form when user clicks cancel
+    form.resetForm({
+      userId: this.userDetails.customerId,
+      status: 'open',
+      whoText: 'customer',
+    });
+  }
+
+  queries: any[] = [];
+  loadQueries(): void {
+    const userId = this.userDetails.customerId; // Example, replace with logged-in userId
+    const whoText = 'customer'; // Example filter
+
+    this.myapi.getQueries(userId, whoText).subscribe((res) => {
+      this.queries = res.queries;
     });
   }
 }

@@ -1,23 +1,28 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Myapi } from '../../myapi';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-
 @Component({
   selector: 'app-admin-register',
-  imports: [ReactiveFormsModule, CommonModule   ,FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './admin-register.html',
   styleUrl: './admin-register.css',
 })
 export class AdminRegister {
- 
   admin: any = {
     firstName: '',
     lastName: '',
     emailId: '',
-    mobile: ''
+    mobile: '',
   };
 
   selectedFile: File | null = null;
@@ -33,7 +38,6 @@ export class AdminRegister {
 
   // Submit form with validation
   onSubmit(form: NgForm) {
-    
     if (form.invalid || !this.selectedFile) {
       this.errorMessage = 'Please fill all required fields correctly.';
       this.successMessage = '';
@@ -71,7 +75,7 @@ export class AdminRegister {
         console.error(err);
         this.errorMessage = 'Registration failed. Try again.';
         this.successMessage = '';
-      }
+      },
     });
   }
 }

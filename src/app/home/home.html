@@ -28,22 +28,34 @@
 
 <div class="container my-5">
   <h2 class="mb-4">Product List</h2>
-  <!-- {{ productList() | json }} -->
+  <!-- {{ productList() | json }}   isDelete = 'deleted'-->
   <div class="row">
     <!-- Product Card Example -->
     @for (item of productList(); track item.id) {
-      <div class="col-md-4 mb-3">
+      <div
+        class="col-md-4 mb-3"
+        *ngIf="
+          item.isActiveStatus !== 'banned' &&
+          item.isUserActive !== 'banned' &&
+          item.isDelete !== 'deleted'
+        "
+      >
         <div class="card h-100 shadow-sm">
           <div class="card-body p-2">
             <div class="row">
               <div class="col-md-4">
-                <img [src]="'http://localhost:8000/uploads/' + item.image" class="card-img-top" alt="Tomato" width="100" />
+                <img
+                  [src]="'http://localhost:8000/uploads/' + item.image"
+                  class="card-img-top"
+                  alt="Tomato"
+                  width="100"
+                />
               </div>
               <div class="col-md-8">
                 <b class="card-title mb-0">{{ item.name }}</b>
                 <small class="mb-0 d-block">Price: ₹{{ item.price }}/kg</small>
                 <small class="mb-0 d-block">Quantity: {{ item.quantity }} kg available</small>
-               
+
                 <button
                   class="btn btn-success btn-sm buy-btn"
                   (click)="selectedId(item)"
@@ -74,7 +86,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header bg-success text-white">
-        <h5 class="modal-title" id="buyModalLabel">Buy Product</h5>
+        <h5 class="modal-title" id="buyModalLabel">Buy Product (Fill Alternative Detilas)</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -188,14 +200,15 @@
                 <small *ngIf="quantity.errors?.['max']">Maximum quantity is 100.</small>
               </div>
             </div>
-             <div class="col-md-6"><br>
+            <div class="col-md-6">
+              <br />
               <small class="text-primary">Payment Mode: <span>Cash On Delivery.</span></small>
-             </div>
+            </div>
             <!-- Submit -->
-             <div class="col-md-12">
-            <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">
-              Place Order
-            </button>
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">
+                Place Order
+              </button>
             </div>
           </form>
         } @else {

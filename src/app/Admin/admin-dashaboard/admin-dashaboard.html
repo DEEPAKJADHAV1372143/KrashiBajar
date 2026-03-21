@@ -10,7 +10,7 @@
           <img
             width="70"
             height="70"
-            src="{{ url+adminDetails.image }}"
+            src="{{ url + adminDetails.image }}"
             class="rounded"
             alt="Customer Photo"
           />
@@ -23,11 +23,11 @@
           <p><strong>Contact:</strong> {{ adminDetails.mobile }}</p>
         </div>
         <div class="col-md-4">
-          <p><strong>Email:</strong> {{ adminDetails.emailId  }}</p>
+          <p><strong>Email:</strong> {{ adminDetails.emailId }}</p>
           <p><strong>Role:</strong> Admin</p>
-          
         </div>
         <div class="col-md-3 text-end">
+          <button class="btn btn-sm btn-success mx-3" (click)="goHome()">Back to Home</button>
           <button class="btn btn-sm btn-danger" (click)="logout()">
             <i class="fa fa-sign-out"></i> Logout
           </button>
@@ -35,161 +35,308 @@
       </section>
     </div>
   </div>
+</div>
+
+<div class="px-5 mt-3">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#home">Farmer</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu1">Customer </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu2">Order </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu3">Product </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu4">Admin </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu5">Cpmplains / Queryes</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="tab-pane active">
+      <br />
+      <b class="text-primary">Farmer Table List ({{ farmar().length }})</b>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-dark">
+              <th>Farmer ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Account</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let farmer of farmar()"
+              [ngClass]="{ 'table-warning': farmer.isActiveStatus === 'banned' }"
+            >
+              <td>{{ farmer.farmerId }}</td>
+              <td>{{ farmer.farmerFirstName }}</td>
+              <td>{{ farmer.farmerLastName }}</td>
+              <td>{{ farmer.farmerEmail }}</td>
+              <td>{{ farmer.farmerPhone }}</td>
+              <td>{{ farmer.farmerAddress }}</td>
+              <td>{{ farmer.farmerAccount }}</td>
+              <td>{{ farmer.username }}</td>
+              <td>******</td>
+              <td>
+                <div>
+                  <button
+                    *ngIf="farmer.isActiveStatus === 'open'"
+                    class="btn btn-success mx-3"
+                    (click)="changeFarmerStatus(farmer.farmerId, 'banned')"
+                  >
+                    Ban Account
+                  </button>
+
+                  <button
+                    *ngIf="farmer.isActiveStatus === 'banned'"
+                    class="btn btn-danger mx-3"
+                    (click)="changeFarmerStatus(farmer.farmerId, 'open')"
+                  >
+                    Open Account
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <br />
+
+      <b class="text-primary">Customer Table List ({{ customer().length }})</b>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-dark">
+              <th>Customer ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Account</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let cust of customer()"
+              [ngClass]="{ 'table-warning': cust.isActiveStatus === 'banned' }"
+            >
+              <td>{{ cust.customerId }}</td>
+              <td>{{ cust.customerFirstName }}</td>
+              <td>{{ cust.customerLastName }}</td>
+              <td>{{ cust.customerEmail }}</td>
+              <td>{{ cust.customerPhone }}</td>
+              <td>{{ cust.customerAddress }}</td>
+              <td>{{ cust.customerAccount }}</td>
+              <td>{{ cust.username }}</td>
+              <td>*****</td>
+              <td>
+                <div>
+                  <button
+                    *ngIf="cust.isActiveStatus === 'open'"
+                    class="btn btn-success mx-3"
+                    (click)="changeCustomerStatus(cust.customerId, 'banned')"
+                  >
+                    Ban Account
+                  </button>
+
+                  <button
+                    *ngIf="cust.isActiveStatus === 'banned'"
+                    class="btn btn-danger mx-3"
+                    (click)="changeCustomerStatus(cust.customerId, 'open')"
+                  >
+                    Open Account
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <br />
+      <b class="text-primary">Order Table List ({{ order().length }})</b>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-dark">
+              <th>ID</th>
+              <th>Customer ID</th>
+              <th>Product ID</th>
+              <th>Login ID</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Quantity</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let order of order()"
+              [ngClass]="{ 'table-warning': order.isActiveStatus === 'banned' }"
+            >
+              <td>{{ order.id }}</td>
+              <td>{{ order.cid }}</td>
+              <td>{{ order.pid }}</td>
+              <td>{{ order.logid }}</td>
+              <td>{{ order.name }}</td>
+              <td>{{ order.phone }}</td>
+              <td>{{ order.email }}</td>
+              <td>{{ order.address }}</td>
+              <td>{{ order.quantity }}</td>
+              <td>{{ order.status }}</td>
+              <td>
+                <div>
+                  <button
+                    *ngIf="order.isActiveStatus === 'open'"
+                    class="btn btn-success mx-3"
+                    (click)="changeOrderStatus2(order.id, 'banned')"
+                  >
+                    Ban Account
+                  </button>
+
+                  <button
+                    *ngIf="order.isActiveStatus === 'banned'"
+                    class="btn btn-danger mx-3"
+                    (click)="changeOrderStatus2(order.id, 'open')"
+                  >
+                    Open Account
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="menu3" class="tab-pane">
+      <br />
+      <b class="text-primary">Product Table List ({{ product().length }})</b>
+      <div class="table-responsive mb-5">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-dark">
+              <th>ID</th>
+              <th>Farmer ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Product Banned ?</th>
+              <th>User Banned ?</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let product of product()"
+              [ngClass]="{
+                'table-warning':
+                  product.isActiveStatus === 'banned' || product.isUserActive === 'banned',
+              }"
+            >
+              <td>{{ product.id }}</td>
+              <td>{{ product.fid }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.isActiveStatus }}</td>
+              <td>{{ product.isUserActive }}</td>
+              <td>
+                <div>
+                  <button
+                    *ngIf="product.isActiveStatus === 'open'"
+                    class="btn btn-success mx-3"
+                    (click)="changeProductStatus(product.id, 'banned')"
+                  >
+                    Ban Account
+                  </button>
+
+                  <button
+                    *ngIf="product.isActiveStatus === 'banned'"
+                    class="btn btn-danger mx-3"
+                    (click)="changeProductStatus(product.id, 'open')"
+                  >
+                    Open Account
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="menu4" class="tab-pane fade">
+      <br />
+      <div>
+        <app-admin-register></app-admin-register>
+      </div>
+    </div>
+    <div id="menu5" class="tab-pane fade">
+      <br />
+
+      <div class="mt-3">
+        <h3>All Queries</h3>
+
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr class="table-dark">
+              <th>ID</th>
+              <th>User ID</th>
+              <th>Body</th>
+              <th>Who</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let q of queries">
+              <td>{{ q.queryId }}</td>
+              <td>{{ q.userId }}</td>
+              <td>{{ q.body }}</td>
+              <td>{{ q.whoText }}</td>
+              <td>{{ q.status }}</td>
+              <td>{{ q.createdAt | date: 'short' }}</td>
+              <td>
+                <select [(ngModel)]="q.status" (ngModelChange)="changeStatus(q.queryId, $event)">
+                  <option value="open">Open</option>
+                  <option value="inProgress">inProgress</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+</div>
 
-
-
-  <section class="px-5 pt-5">
-
- 
-
-
-<b class="text-primary">Farmer Table List ({{farmar().length}})</b>
-  <div class="table-responsive mb-5">
-    <table class="table table-bordered">
-  <thead>
-    <tr class="table-dark">
-      <th>Farmer ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Address</th>
-      <th>Account</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let farmer of farmar()">
-      <td>{{ farmer.farmerId }}</td>
-      <td>{{ farmer.farmerFirstName }}</td>
-      <td>{{ farmer.farmerLastName }}</td>
-      <td>{{ farmer.farmerEmail }}</td>
-      <td>{{ farmer.farmerPhone }}</td>
-      <td>{{ farmer.farmerAddress }}</td>
-      <td>{{ farmer.farmerAccount }}</td>
-      <td>{{ farmer.username }}</td>
-      <td>******</td>
-      <td>
-        <button class="btn btn-danger mx-3"  (click)="ban()">Ban Farmer</button>
-       
-      </td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-
-
-  <b class="text-primary">Customer Table List  ({{customer().length}})</b>
-  <div class="table-responsive mb-5">
-    <table class="table table-bordered">
-  <thead>
-    <tr class="table-dark">
-      <th>Customer ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Address</th>
-      <th>Account</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cust of customer()">
-      <td>{{ cust.customerId }}</td>
-      <td>{{ cust.customerFirstName }}</td>
-      <td>{{ cust.customerLastName }}</td>
-      <td>{{ cust.customerEmail }}</td>
-      <td>{{ cust.customerPhone }}</td>
-      <td>{{ cust.customerAddress }}</td>
-      <td>{{ cust.customerAccount }}</td>
-      <td>{{ cust.username }}</td>
-      <td>*****</td>
-      <td>
-        <button class="btn btn-danger mx-3"  (click)="ban()">Ban Customer</button>
-       
-      </td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-
-
- 
-
-<b class="text-primary">Order Table List ({{order().length}})</b>
-  <div class="table-responsive mb-5">
-    <table class="table table-bordered">
-  <thead>
-    <tr class="table-dark">
-      <th>ID</th>
-      <th>Customer ID</th>
-      <th>Product ID</th>
-      <th>Login ID</th>
-      <th>Name</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Quantity</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let order of order()">
-      <td>{{ order.id }}</td>
-      <td>{{ order.cid }}</td>
-      <td>{{ order.pid }}</td>
-      <td>{{ order.logid }}</td>
-      <td>{{ order.name }}</td>
-      <td>{{ order.phone }}</td>
-      <td>{{ order.email }}</td>
-      <td>{{ order.address }}</td>
-      <td>{{ order.quantity }}</td>
-      <td>{{ order.status }}</td>
-      <td>
-        <button class="btn btn-danger mx-3" (click)="ban()">Ban Order</button>
-       
-      </td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-
-
-
-<b class="text-primary">Product Table List ({{product().length}})</b>
-   <div class="table-responsive mb-5">
-    <table class="table table-bordered">
-  <thead>
-    <tr class="table-dark">
-      <th>ID</th>
-      <th>Farmer ID</th>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of product()">
-      <td>{{ product.id }}</td>
-      <td>{{ product.fid }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.price }}</td>
-      <td>{{ product.quantity }}</td>
-      <td>
-        <button class="btn btn-danger mx-3"  (click)="ban()">Ban Product</button>
-       
-      </td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-   </section>
 <app-footer></app-footer>

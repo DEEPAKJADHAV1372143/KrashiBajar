@@ -1,7 +1,6 @@
-
-<div class="container justify-content-center align-items-center">
+<div class="justify-content-center align-items-center">
   <div class="card shadow-lg p-4 mt-2">
-    <h3 class="text-center mb-4">Admin Registration</h3>
+    <h3 class="text-center mb-4">Admin Registration (Create New Admin)</h3>
 
     <form (ngSubmit)="onSubmit(adminForm)" #adminForm="ngForm" class="row">
       <!-- First Name -->
@@ -75,12 +74,7 @@
       <!-- Image -->
       <div class="pt-2 col-md-6">
         <label>Admin Image:</label>
-        <input
-          class="form-control"
-          type="file"
-          (change)="onFileSelected($event)"
-          required
-        />
+        <input class="form-control" type="file" (change)="onFileSelected($event)" required />
         <div class="text-danger" *ngIf="!selectedFile && adminForm.submitted">
           Image is required.
         </div>
@@ -88,11 +82,7 @@
 
       <!-- Buttons -->
       <div class="col-md-12 pt-3">
-        <button
-          type="submit"
-          class="btn btn-sm btn-success"
-          [disabled]="adminForm.invalid"
-        >
+        <button type="submit" class="btn btn-sm btn-success" [disabled]="adminForm.invalid">
           Register Admin
         </button>
         <button type="reset" class="btn btn-sm btn-danger mx-3">Cancel</button>

@@ -32,7 +32,7 @@ export class Myapi {
   }
 
   deleteProduct(id: number): Observable<any> {
-    return this.http.delete(`http://localhost:8000/api/products/${id}`);
+    return this.http.put(`http://localhost:8000/api/products/${id}/delete`, {});
   }
 
   getAllProducts(): Observable<any> {
@@ -69,7 +69,7 @@ export class Myapi {
     return this.http.put(`http://localhost:8000/updateCustomer/${farmerId}`, updateData);
   }
 
-   registerAdmin(formData: FormData): Observable<any> {
+  registerAdmin(formData: FormData): Observable<any> {
     return this.http.post<any>('http://localhost:8000/registerAdmin', formData);
   }
 
@@ -77,10 +77,54 @@ export class Myapi {
     return this.http.post<any>('http://localhost:8000/adminLogin', formData);
   }
 
-   getAllTables(): Observable<any> {
+  getAllTables(): Observable<any> {
     return this.http.get<any>('http://localhost:8000/api/krashibajar/all');
   }
 
-  
+  private baseUrl = 'http://localhost:8000'; // adjust if needed
 
+  // 1. Update ordertable
+  updateOrderStatus2(id: number, isActiveStatus: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateOrderStatus`, { id, isActiveStatus });
+  }
+
+  // 2. Update producttable
+  updateProductStatus(id: number, isActiveStatus: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateProductStatus`, { id, isActiveStatus });
+  }
+
+  // 3. Update farmerlogintable
+  updateFarmerStatus(farmerId: number, isActiveStatus: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateFarmerStatus`, { farmerId, isActiveStatus });
+  }
+
+  // 4. Update customerlogintable
+  updateCustomerStatus(customerId: number, isActiveStatus: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updateCustomerStatus`, { customerId, isActiveStatus });
+  }
+
+  // Update query status
+  updateStatus(queryId: number, status: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/queries/${queryId}/status`, { status });
+  }
+
+  // Add new query
+  addQuery(queryData: any): Observable<any> {
+    return this.http.post('http://localhost:8000/api/queries', queryData);
+  }
+
+  getQueries(userId: number, whoText: string): Observable<any> {
+    return this.http.get(`http://localhost:8000/api/queries`, {
+      params: { userId: userId.toString(), whoText },
+    });
+  }
+
+  // Get all queries
+  getAllQueries(): Observable<any> {
+    return this.http.get('http://localhost:8000/api/AllQueries');
+  }
+
+  updateQueryStatus(queryId: number, status: string): Observable<any> {
+    return this.http.put(`http://localhost:8000/api/queries/${queryId}/status`, { status });
+  }
 }

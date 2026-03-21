@@ -1,3 +1,26 @@
 .bg-one {
   background-image: linear-gradient(to right, green, yellow, green);
 }
+
+.banned-div {
+  animation: blink 1s infinite;
+  border: 2px solid red;
+  padding: 10px;
+  background-color: #ffe5e5;
+}
+
+.banned-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.text-right{
+  text-align: right;
+}

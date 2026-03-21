@@ -17,6 +17,7 @@ export class Home implements OnInit {
 
   userDetails: any;
   farmerDetial: any;
+  adminDetails: any;
   buyId: any;
   canItBuy: boolean = false;
   constructor(
@@ -37,9 +38,10 @@ export class Home implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.buyId='';
+    this.buyId = '';
     this.canItBuy = false;
     this.userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+    this.adminDetails = JSON.parse(localStorage.getItem('adminDetails') || '{}');
     this.farmerDetial = JSON.parse(localStorage.getItem('farmarDetails') || '{}');
     this.myApi.getAllProducts().subscribe({
       next: (res) => {
@@ -61,11 +63,11 @@ export class Home implements OnInit {
     }
   }
 
-  admin(){
-    if (this.userDetails && Object.keys(this.userDetails).length > 0) {
-      this.router.navigate(['/admin']);
+  admin() {
+    if (this.adminDetails && Object.keys(this.adminDetails).length > 0) {
+      this.router.navigate(['/admin-dashboard']);
     } else {
-      this.router.navigate(['']);
+      this.router.navigate(['/admin']);
     }
   }
 
